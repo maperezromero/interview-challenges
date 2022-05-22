@@ -3,7 +3,7 @@ import {Item} from "./types";
 export default {
   list: (): Promise<Item[]> =>
     new Promise((resolve) =>
-      setTimeout(() => {
+      
         resolve([
           {
             id: 1,
@@ -21,6 +21,6 @@ export default {
             completed: false,
           },
         ]);
-      }, 1000),
+     
     ),
 };

@@ -19,7 +19,23 @@ function App() {
   }
 
   function handleAdd(event: React.ChangeEvent<Form>) {
-    // Should implement
+    event.preventDefault();
+    const element = document.getElementById('text');
+    const ids = items.map(item=>item.id)
+
+    const id = ids.reduce(function(a,b){
+      return Math.max(a,b) + 1
+    });
+    const newElement = {
+      id: id,
+      text: element?.value,
+      completed: false,  
+    }
+
+
+    setItems([...items, newElement])
+
+    element.value ="";
   }
 
   function handleRemove(id: Item["id"]) {
@@ -34,8 +50,8 @@ function App() {
     <main className={styles.main}>
       <h1>Supermarket list</h1>
       <form onSubmit={handleAdd}>
-        <input name="text" type="text" />
-        <button>Add</button>
+        <input name="text" type="text" id="text"/>
+        <button onClick={(e)=>handleAdd(e)}>Add</button>
       </form>
       <ul>
         {items?.map((item) => (

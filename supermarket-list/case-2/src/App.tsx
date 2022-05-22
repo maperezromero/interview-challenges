@@ -15,18 +15,27 @@ function App() {
 
   function handleToggle(id: Item["id"]) {
     // Should implement
+    const copyItems = items.map((item)=>{
+      if(item.id===id){
+        return {...item, completed: !item.completed};
+      }else{
+        return item;
+      }
+    });
+    setItems(copyItems)    
   }
 
   function handleAdd(event: React.ChangeEvent<Form>) {
     event.preventDefault();
-
-    setItems((items) =>
-      items.concat({
-        id: +new Date(),
-        completed: false,
-        text: event.target.text.value,
-      }),
-    );
+    if (event.target.text.value !==''){
+      setItems((items) =>
+        items.concat({
+          id: +new Date(),
+          completed: false,
+          text: event.target.text.value,
+        }),
+      );
+    }
 
     event.target.text.value = "";
   }
@@ -39,7 +48,12 @@ function App() {
     api
       .list()
       .then(setItems)
-      .finally(() => toggleLoading(false));
+      .finally(() => {
+        toggleLoading(true)
+        setTimeout(() => {
+          toggleLoading(false)
+        }, 1000);  
+      });
   }, []);
 
   if (isLoading) return "Loading...";
